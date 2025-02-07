@@ -1,0 +1,116 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net481</TargetFramework>
+		<ImplicitUsings>disable</ImplicitUsings>
+		<Nullable>disable</Nullable>
+		<PlatformTarget>x64</PlatformTarget>
+		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+		<LangVersion>6</LangVersion>
+		<SeDir>C:\Program Files (x86)\Steam\steamapps\common\SpaceEngineers\Bin64\</SeDir>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<Configurations>Debug;Release</Configurations>
+	</PropertyGroup>
+
+	
+
+	<ItemGroup>
+		<Reference Include="Sandbox.Common">
+			<HintPath>$(SeDir)Sandbox.Common.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Sandbox.Game">
+			<HintPath>$(SeDir)Sandbox.Game.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Sandbox.Graphics">
+			<HintPath>$(SeDir)Sandbox.Graphics.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="SpaceEngineers.Game">
+			<HintPath>$(SeDir)SpaceEngineers.Game.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="SpaceEngineers.ObjectBuilders">
+			<HintPath>$(SeDir)SpaceEngineers.ObjectBuilders.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="System.Memory">
+			<HintPath>$(SeDir)System.Memory.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="System.Net.Http" />
+		<Reference Include="VRage">
+			<HintPath>$(SeDir)VRage.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="VRage.Game">
+			<HintPath>$(SeDir)VRage.Game.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="VRage.Input">
+			<HintPath>$(SeDir)VRage.Input.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="VRage.Library">
+			<HintPath>$(SeDir)VRage.Library.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="VRage.Math">
+			<HintPath>$(SeDir)VRage.Math.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="VRage.Network">
+			<HintPath>$(SeDir)VRage.Network.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="VRage.Render">
+			<HintPath>$(SeDir)VRage.Render.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="VRage.Render11">
+			<HintPath>$(SeDir)VRage.Render11.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="NLog">
+			<HintPath>$(SeDir)NLog.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="SharpDX">
+			<HintPath>$(SeDir)SharpDX.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="SharpDX.Direct3D11">
+			<HintPath>$(SeDir)SharpDX.Direct3D11.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Newtonsoft.Json">
+			<HintPath>$(SeDir)Newtonsoft.Json.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="ProtoBuf.Net.Core">
+			<HintPath>$(SeDir)ProtoBuf.Net.Core.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Lib.Harmony" Version="2.2.2" PrivateAssets="all" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+
+		<!--    its here because else we will get warnings about version mismatch   -->
+		<PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.0.0" PrivateAssets="all" />
+	</ItemGroup>
+
+	<Target Name="Kill" BeforeTargets="PreBuildEvent">
+		<Exec Command="taskkill /F /IM SpaceEngineers.exe" ContinueOnError="true" EchoOff="true" IgnoreStandardErrorWarningFormat="true" IgnoreExitCode="true" />
+	</Target>
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+	  <Exec Command="xcopy $(TargetPath) &quot;$(SeDir)Plugins&quot; /Y" />
+	</Target>
+	<ItemGroup>
+	  <Reference Update="System.Numerics">
+	    <Private>False</Private>
+	  </Reference>
+	</ItemGroup>
+</Project>
